@@ -1,7 +1,7 @@
 
 $fn=60;
 
-includeDisplay = false;
+includeDisplay = true;
 
 pcbThickness = 1.2;
 
@@ -12,7 +12,7 @@ depth = 35;
 
 pcbXOffset = 4.5;
 pcbYOffset = 2.5;
-pcbZOffset = 11;
+pcbZOffset = 12; // 11 worked well, but +1 for extra display space.
 baseThickness = 2;
 
 module pcb() {
@@ -340,14 +340,29 @@ module tftBobCutout() {
     // Display 33mm wide (+/- ears of 5.5mm)
     // Display height 36mm (+6, -2.5ish)
     
-    translate([tftBobXOffset-0.6, tftBobYOffset-0.6, -0.1]) {
+    // Don't cut all the way through with the main display, allow 0.4mm
+    // i.e. 2 layers, for a bezzle
+    translate([tftBobXOffset-0.6, tftBobYOffset-0.6, 0.4]) {
         // base
         //cube([33,45,1.6]);
         
         // display
         translate([0, 6, 0]) {
             
-            #cube([33+1.2, 36+1.2, baseThickness+1]);
+            cube([33+1.2, 36+1.2, baseThickness+1]);
+        }
+            
+        translate([1, 1.5, 0.5]) {
+            // Small recess for pins.
+            #cube([31.5, 3, baseThickness+1]);
+        }
+        
+        // Cut the final inner display out.
+        // 3mm bezel on x.
+        translate([3, 6 +1.5, -0.5]) {
+            
+            // SD card faces same direction as Arduino.
+            cube([33+1.2-6, 36+1.2 - (6+1.5), baseThickness+1]);
         }
     }
 }
@@ -366,7 +381,12 @@ module tftBobPins() {
 
 module tftBobPin(x,y) {
     translate([x,y,0]) {
-        cylinder(d=2, h=3+baseThickness);
+        // 2.0mm pins is just tight.
+        cylinder(d=2.0, h=4+baseThickness);
+        
+        // Raise it up 1.4mm to allow for solder joint of pins 
+        // and for unevenness in display.
+        cylinder(d=5.4, h=baseThickness + 1.4);
     }
 }
 
@@ -427,7 +447,9 @@ difference() {
         main();
         pcbMounts();
         lidMounts();
-        tftBobPins();
+        if (includeDisplay) {
+            tftBobPins();
+        }
     }
     union() {
         pcbHoles();
@@ -439,7 +461,7 @@ difference() {
 translate([pcbXOffset, pcbYOffset,pcbZOffset]) {
 
     //%pcb();
-    %pcbUnderMounted();
+    //%pcbUnderMounted();
 }
 
 // display 33mm wide.
@@ -447,6 +469,6 @@ translate([pcbXOffset, pcbYOffset,pcbZOffset]) {
 // Display 33mm wide (+/- ears of 5.5mm)
 // Display height 36mm (+6, -2.5ish)
     
-translate([(width-33)/2,height-63,baseThickness]) {
-    %tftBob();
+translate([(width-33)/2,height-63,baseThickness + 0.8]) {
+    //%tftBob();
 }
