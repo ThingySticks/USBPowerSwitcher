@@ -1,7 +1,13 @@
 
 $fn=60;
 
-includeDisplay = true;
+
+includeBattery = true;
+includeFeet = false;
+buildLid = true;
+
+includeDisplay = false;
+buildBase = false;
 
 pcbThickness = 1.2;
 
@@ -88,7 +94,20 @@ module pcbUnderMounted() {
     
     // Arduino
     translate([14.7, 36.1, pcbThickness]) {
-        cube([40-14.7, 104.8-36.1, 22]);
+        // 64mm... long.
+        //cube([40-14.7, 104.8-36.1, 22]);
+    }
+    
+    translate([14.7, 42.8, pcbThickness]) {
+        // 64mm... long.
+        cube([40-14.7, 62, 14]);
+        
+        // Headers.
+        translate([0, 7.5, pcbThickness]) {
+            cube([40-14.7, 45, 22.5]);
+        }
+        
+        
     }
     
     // Arduino USB
@@ -359,10 +378,10 @@ module tftBobCutout() {
         
         // Cut the final inner display out.
         // 3mm bezel on x.
-        translate([3, 6 +1.5, -0.5]) {
+        translate([3.5, 6 +1.5, -0.5]) {
             
             // SD card faces same direction as Arduino.
-            cube([33+1.2-6, 36+1.2 - (6+1.5), baseThickness+1]);
+            #cube([33+1.2-6.5, 36+1.2 - (6+1.5), baseThickness+1]);
         }
     }
 }
@@ -386,35 +405,52 @@ module tftBobPin(x,y) {
         
         // Raise it up 1.4mm to allow for solder joint of pins 
         // and for unevenness in display.
-        cylinder(d=5.4, h=baseThickness + 1.4);
+        // watch as upper pins likely to clash with display cutout
+        cylinder(d=4.4, h=baseThickness + 1.4);
     }
 }
 
 
-module lidMount(x,y) {
+module lidMount(x,y, offsetx, offsety) {
+    
     translate([x,y,1]) {
+        hull() {
+            translate([offsetx,offsety,7]) {
+                cylinder(d=1, h=2);
+            }
+            translate([0,0,depth-13]) {
+                cylinder(d=8, h=2);
+            }
+        }
+    }
+    
+    translate([x,y,depth-12]) {
         difference() {
             union() {
                 // -1.5 for lid inner thickness.
-                cylinder(d=6, h=depth-1-1.5);
+                cylinder(d=8, h=(12-4-1));
             }
             union() {
-                translate([0,0,10]) {
-                    cylinder(d=3, h=depth);
+                translate([0,0,-1]) {
+                    cylinder(d=4.4, h=depth);
                 }
             }
         }
     }
 }
 
+lidScrewOffset = 5;
+
 module lidMounts() {
-    lidMount(4,4);
-    lidMount(4,height-4);
-    lidMount(width-4,height-4);
-    lidMount(width-4,4);
+offset = lidScrewOffset;
+
+    lidMount(offset ,offset ,-2.5,-2.5);
+    lidMount(offset ,height-offset , -2.5, 2.5);
+    lidMount(width-offset ,height-offset, 2.5,2.5);
+    lidMount(width-offset ,offset,2.5,-2.5 );
 }
 
-module main() {
+module bodyMain() {
     difference() {
         union() {
             roundedCube(width, height, depth, 6);
@@ -442,17 +478,98 @@ module main() {
     }
 }
 
-difference() {
-    union() {
-        main();
-        pcbMounts();
-        lidMounts();
-        if (includeDisplay) {
-            tftBobPins();
+
+module body() {
+    difference() {
+        union() {
+            bodyMain();
+            pcbMounts();
+            lidMounts();
+            if (includeDisplay) {
+                tftBobPins();
+            }
+        }
+        union() {
+            pcbHoles();
         }
     }
-    union() {
-        pcbHoles();
+}
+
+// ================================================================
+
+lidDepth = 4;
+
+module lidHole(x,y) {
+    translate([x,y,-0.1]) {
+        cylinder(d=3, h=lidDepth+20);
+        cylinder(d1=5, d2=3, h=2);
+    }
+}
+
+module lidHoles() {
+    lidHole(lidScrewOffset,lidScrewOffset);
+    lidHole(lidScrewOffset,height-lidScrewOffset);
+    lidHole(width-lidScrewOffset,height-lidScrewOffset);
+    lidHole(width-lidScrewOffset,lidScrewOffset);
+}
+
+module addMountingLug(x,y) {
+    translate([x,y,0]) {
+        difference() {
+            cylinder(d=16, h=4);
+            cylinder(d1=5, d2=9, h=4.1);
+        }
+    }
+}
+
+module addMountingLugs() {
+    addMountingLug(-5,20);
+    addMountingLug(-5,height-20);
+    addMountingLug(width+5,20);
+    addMountingLug(width+5,height-20);
+}
+
+module lid() {
+     difference() {
+        union() {
+            // Main lid...
+            roundedCube(width, height, lidDepth, 6);
+            
+            translate([1.5, 1.5, lidDepth]) {
+                // 1.5mm Goes in the box...
+                roundedCube(width-3, height-3, 4, 6);
+            }
+            
+            if (includeFeet) {
+                // Mounting Lugs
+                addMountingLugs();
+            }
+        }
+        union() {
+            translate([5, 5, 1.5]) {
+                // Inner lid cutout
+                roundedCube(width-10, height-10, lidDepth+5, 6);
+            }
+            
+            lidHoles();
+           
+        }
+    }
+    
+    if (includeBattery) {
+        // Make a battery box...
+        difference() {
+            union() {
+                translate([1.8, 12, 1.5]) {
+                    cube([width-3.6, 34, 13]);
+                }
+            }
+            union() {
+                translate([1.8+1.8+1.8, 13.5, 1.5]) {
+                    #cube([52, 34+5, 11]);
+                }
+            }
+        }
     }
 }
     
@@ -461,7 +578,7 @@ difference() {
 translate([pcbXOffset, pcbYOffset,pcbZOffset]) {
 
     //%pcb();
-    //%pcbUnderMounted();
+    %pcbUnderMounted();
 }
 
 // display 33mm wide.
@@ -471,4 +588,14 @@ translate([pcbXOffset, pcbYOffset,pcbZOffset]) {
     
 translate([(width-33)/2,height-63,baseThickness + 0.8]) {
     //%tftBob();
+}
+
+if (buildBase) {
+    body();
+}
+
+if (buildLid ) {
+    translate([0,0,35]) {
+        lid();
+    }
 }
