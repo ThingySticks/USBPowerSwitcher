@@ -9440,16 +9440,26 @@ Part: 2410 01</description>
 </class>
 </classes>
 <parts>
-<part name="U1" library="INA219AIDCNR" deviceset="INA219AIDCNR" device="SOIC"/>
+<part name="U1" library="INA219AIDCNR" deviceset="INA219AIDCNR" device="SOIC">
+<attribute name="FARNELL" value="2496402"/>
+</part>
 <part name="U4" library="Arduino" deviceset="ARDUINO_MKRFOX1200" device="PROTOPADS"/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LEDGER" device=""/>
-<part name="R1" library="SparkFun-Resistors" deviceset="0.001OHM-3W-1%(2512)" device="3W/1%" value="0.1"/>
-<part name="USB2" library="Tinamous" deviceset="USB-NEW" device=""/>
+<part name="R1" library="SparkFun-Resistors" deviceset="0.001OHM-3W-1%(2512)" device="3W/1%" value="0.1">
+<attribute name="FARNELL" value="1435952"/>
+</part>
+<part name="USB2" library="Tinamous" deviceset="USB-NEW" device="">
+<attribute name="FARNELL" value="1177882"/>
+</part>
 <part name="USB1" library="Tinamous" deviceset="USB-NEW" device=""/>
 <part name="U2" library="LM3256M-L" deviceset="LM3526M-L" device=""/>
-<part name="S1" library="SparkFun-Electromechanical" deviceset="SWITCH-MOMENTARY-2" device="PTH"/>
+<part name="S1" library="SparkFun-Electromechanical" deviceset="SWITCH-MOMENTARY-2" device="PTH">
+<attribute name="FARNELL" value="2533101"/>
+</part>
 <part name="S2" library="SparkFun-Electromechanical" deviceset="SWITCH-MOMENTARY-2" device="PTH"/>
-<part name="D1" library="SparkFun-LED" deviceset="LED" device="3MM"/>
+<part name="D1" library="SparkFun-LED" deviceset="LED" device="3MM">
+<attribute name="FARNELL" value="1208851"/>
+</part>
 <part name="D2" library="SparkFun-LED" deviceset="LED" device="3MM"/>
 <part name="GND3" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND4" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -9494,8 +9504,8 @@ Part: 2410 01</description>
 <part name="R26" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805-RES" value="100k"/>
 <part name="R27" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805-RES" value="100k"/>
 <part name="SUPPLY12" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
-<part name="C5" library="SparkFun-Capacitors" deviceset="CAP" device="0805"/>
-<part name="C6" library="SparkFun-Capacitors" deviceset="CAP" device="0805"/>
+<part name="C5" library="SparkFun-Capacitors" deviceset="CAP" device="0805" value="0.1uF"/>
+<part name="C6" library="SparkFun-Capacitors" deviceset="CAP" device="0805" value="1uF"/>
 <part name="SUPPLY14" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND10" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="C7" library="SparkFun-Capacitors" deviceset="CAP" device="0805" value="0.1u"/>
@@ -9513,7 +9523,7 @@ Part: 2410 01</description>
 <part name="R11" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805-RES" value="0R"/>
 <part name="GND8" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND15" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="C3" library="SparkFun-Capacitors" deviceset="CAP" device="0805" value="0.1u"/>
+<part name="C3" library="SparkFun-Capacitors" deviceset="CAP" device="0805" value="0.1uF"/>
 <part name="GND16" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND19" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="SparkFun-Aesthetics" deviceset="VCC" device=""/>
@@ -9570,17 +9580,27 @@ VIN -&gt;  PFET-&gt; 5V
 <text x="274.32" y="246.38" size="3.81" layer="97">possibly d+/d- also</text>
 </plain>
 <instances>
-<instance part="U1" gate="A" x="200.66" y="215.9"/>
+<instance part="U1" gate="A" x="200.66" y="215.9">
+<attribute name="FARNELL" x="200.66" y="215.9" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="U4" gate="G$1" x="71.12" y="134.62"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="330.2" y="0"/>
-<instance part="R1" gate="G$1" x="154.94" y="218.44" rot="R90"/>
-<instance part="USB2" gate="G$1" x="299.72" y="193.04"/>
+<instance part="R1" gate="G$1" x="154.94" y="218.44" rot="R90">
+<attribute name="FARNELL" x="154.94" y="218.44" size="1.778" layer="96" rot="R90" display="off"/>
+</instance>
+<instance part="USB2" gate="G$1" x="299.72" y="193.04">
+<attribute name="FARNELL" x="299.72" y="193.04" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="USB1" gate="G$1" x="383.54" y="195.58"/>
 <instance part="U2" gate="A" x="162.56" y="104.14"/>
-<instance part="S1" gate="G$1" x="302.26" y="182.88"/>
+<instance part="S1" gate="G$1" x="302.26" y="182.88">
+<attribute name="FARNELL" x="302.26" y="182.88" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="S2" gate="G$1" x="386.08" y="185.42"/>
-<instance part="D1" gate="G$1" x="299.72" y="208.28" rot="R90"/>
+<instance part="D1" gate="G$1" x="299.72" y="208.28" rot="R90">
+<attribute name="FARNELL" x="299.72" y="208.28" size="1.778" layer="96" rot="R90" display="off"/>
+</instance>
 <instance part="D2" gate="G$1" x="383.54" y="210.82" rot="R90"/>
 <instance part="GND3" gate="1" x="393.7" y="180.34"/>
 <instance part="GND4" gate="1" x="309.88" y="177.8"/>
