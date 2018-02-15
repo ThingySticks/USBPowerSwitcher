@@ -1,13 +1,11 @@
 
 $fn=60;
 
+includeTerminalBlock = false;
+includeArduinoUsb = false;
+includeUsbMicro = false;
 
-includeBattery = true;
-includeFeet = false;
-buildLid = false;
-
-includeDisplay = false;
-buildBase = true;
+includeText = true;
 
 pcbThickness = 1.2;
 
@@ -73,7 +71,7 @@ usbHeight = 6.8;
     }
     
     // LEDs
-    translate([45, 49.9, -12.65]) {
+    translate([50, 49.9, -12.65]) {
             
         // LED1
         translate([0, 30, 0]) {
@@ -121,12 +119,12 @@ usbHeight = 6.8;
     }
     
     // 5V terminal
-    // Hidden by Arduino...
-    translate([21.8, 91, pcbThickness]) {
-        cube([11.1, 7.5, 12]);
+    // On the underside of the PCB.
+    translate([21.8, 91, -9]) {
+        cube([11.1, 7.5, 9]);
         
         // Push through the case.
-        cube([11.1, 27.5, 12]);
+        cube([11.1, 27.5, 9]);
     }
     
     // USB B
@@ -267,7 +265,7 @@ module pcbMounts() {
 
 module switchCutouts() {
     
-switchDiameter = 5;
+switchDiameter = 4;
 switchHeight = 12.65;
     
     translate([pcbXOffset, pcbYOffset,0]) {
@@ -302,7 +300,7 @@ ledDiameter = 3.6;
 ledHeight = 12.65;
     translate([pcbXOffset, pcbYOffset,0]) {
        
-        translate([45, 49.9, -0.01]) {
+        translate([50, 49.9, -0.01]) {
             
             // LED1
             translate([0, 30, 0]) {
@@ -332,10 +330,10 @@ module usbOutletCutouts(){
 usbWidth = 13.32+2;
 usbHeight = 6.8+2;
     
-    translate([pcbXOffset, pcbYOffset,0]) {
+    translate([pcbXOffset, pcbYOffset - 1.5,0]) {
         
         // USB 1
-        translate([16.5-6.66-1, 31-5-1, -0.01]) {
+        translate([16.5-6.66-1, 31-5, -0.01]) {
             cube([usbWidth, usbHeight, 4]);
         }
         
@@ -345,18 +343,18 @@ usbHeight = 6.8+2;
         }
        
         // USB 3
-        translate([16.5-6.66-1, 14.25-5-1, -0.01]) {
+        translate([16.5-6.66-1, 14.25-5, -0.01]) {
             cube([usbWidth, usbHeight, 4]);
         }
         
         // USB 4
-        translate([16.5+22-6.66-1, 14.25-5-1, -0.01]) {
+        translate([16.5+22-6.66-1, 14.25-5, -0.01]) {
             cube([usbWidth, usbHeight, 4]);
         }
     }        
 }
 module topArduinoUsbCutout(){
-    translate([pcbXOffset, pcbYOffset,pcbZOffset]) {
+    translate([pcbXOffset, pcbYOffset, pcbZOffset]) {
         translate([14.7 + (25.3 - 10)/2-1, 102, pcbThickness + 13.3-1.5]) {
             #cube([10+2, 15, 3+4]);
         }
@@ -365,14 +363,21 @@ module topArduinoUsbCutout(){
         //    cube([10, 15, 3.5]);
         //}
     }
-    
-     
+}
+
+module TerminalBlockConnectorCutout() {
+    translate([pcbXOffset, pcbYOffset, pcbZOffset]) {
+        translate([21.0, 91, -9]) {
+        cube([12.8, 27.5, 9]);
+        }
+    }
 }
     
+// Difficult to solder connector!
 module bottomUsbCutout() {
-    translate([pcbXOffset, 0, pcbZOffset]) {
+    translate([pcbXOffset, 0, pcbZOffset + pcbThickness - 3]) {
         translate([24-2.5, -0.1, pcbThickness-1]) {
-            cube([12, 10, 6]);
+            cube([12, 10, 8]);
         }
     }
 }
@@ -493,16 +498,54 @@ module bodyMain() {
             switchCutouts();
             ledCutouts();
             usbOutletCutouts();
-            
-            topArduinoUsbCutout();
-            bottomUsbCutout();
-            
-            if (includeDisplay) {
-                // adafru.it/2088
-                tftBobCutout();
+
+            if (includeArduinoUsb) {
+                topArduinoUsbCutout();
+            }
+
+            if (includeTerminalBlock) {
+                TerminalBlockConnectorCutout();
             }
             
+            if (includeUsbMicro) {
+                bottomUsbCutout();
+            }
         }
+    }
+}
+
+module usbPortTextCutout(x,y, text, size) {
+    translate([x, y, 0]) {
+        // Text is back to front!
+            rotate([0,180,0]) {
+                linear_extrude(1)  {
+                    text(text, size=size);
+                }
+            }
+        }
+}
+
+module textCutout() {
+textReccess = 0.5; // 1-2 layer heights
+    
+    // USB ports.
+    translate([16.5, 1, textReccess]) {
+        usbPortTextCutout(-4, 31-5, "2", 8);
+        usbPortTextCutout(42, 31-5, "1", 8);
+        usbPortTextCutout(-4, 14.25-5, "4", 8);
+        usbPortTextCutout(42, 14.25-5, "3", 8);
+    }
+    
+    // Buttons/LEDs....
+    translate([width/2 + 9, 50, textReccess]) {
+        usbPortTextCutout(0, 0, "Port 4", 5);
+        usbPortTextCutout(0, 10, "Port 3", 5);
+        usbPortTextCutout(0, 20, "Port 2", 5);
+        usbPortTextCutout(0, 30, "Port 1", 5);
+    }
+    
+    translate([width-3, 65, textReccess]) {
+        usbPortTextCutout(0, 30, "USB Power Switch", 5);
     }
 }
 
@@ -513,93 +556,17 @@ module body() {
             bodyMain();
             pcbMounts();
             lidMounts();
-            if (includeDisplay) {
-                tftBobPins();
-            }
         }
         union() {
             pcbHoles();
-        }
-    }
-}
-
-// ================================================================
-
-lidDepth = 4;
-
-module lidHole(x,y) {
-    translate([x,y,-0.1]) {
-        cylinder(d=3, h=lidDepth+20);
-        cylinder(d1=5, d2=3, h=2);
-    }
-}
-
-module lidHoles() {
-    lidHole(lidScrewOffset,lidScrewOffset);
-    lidHole(lidScrewOffset,height-lidScrewOffset);
-    lidHole(width-lidScrewOffset,height-lidScrewOffset);
-    lidHole(width-lidScrewOffset,lidScrewOffset);
-}
-
-module addMountingLug(x,y) {
-    translate([x,y,0]) {
-        difference() {
-            cylinder(d=16, h=4);
-            cylinder(d1=5, d2=9, h=4.1);
-        }
-    }
-}
-
-module addMountingLugs() {
-    addMountingLug(-5,20);
-    addMountingLug(-5,height-20);
-    addMountingLug(width+5,20);
-    addMountingLug(width+5,height-20);
-}
-
-module lid() {
-     difference() {
-        union() {
-            // Main lid...
-            roundedCube(width, height, lidDepth, 6);
-            
-            translate([1.5, 1.5, lidDepth]) {
-                // 1.5mm Goes in the box...
-                roundedCube(width-3, height-3, 4, 6);
+            if (includeText) {
+                textCutout();
             }
             
-            if (includeFeet) {
-                // Mounting Lugs
-                addMountingLugs();
-            }
-        }
-        union() {
-            translate([5, 5, 1.5]) {
-                // Inner lid cutout
-                roundedCube(width-10, height-10, lidDepth+5, 6);
-            }
-            
-            lidHoles();
-           
-        }
-    }
-    
-    if (includeBattery) {
-        // Make a battery box...
-        difference() {
-            union() {
-                translate([1.8, 12, 1.5]) {
-                    cube([width-3.6, 34, 13]);
-                }
-            }
-            union() {
-                translate([1.8+1.8+1.8, 13.5, 1.5]) {
-                    #cube([52, 34+5, 11]);
-                }
-            }
         }
     }
 }
+
     
 
 
@@ -618,12 +585,4 @@ translate([(width-33)/2,height-63,baseThickness + 0.8]) {
     //%tftBob();
 }
 
-if (buildBase) {
-    body();
-}
-
-if (buildLid ) {
-    translate([0,0,35]) {
-        lid();
-    }
-}
+body();
