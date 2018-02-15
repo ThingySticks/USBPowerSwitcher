@@ -1,11 +1,6 @@
 
 $fn=60;
 
-
-includeBattery = true;
-includeFeet = false;
-buildLid = true;
-
 includeDisplay = false;
 buildBase = false;
 
@@ -495,83 +490,6 @@ module body() {
     }
 }
 
-// ================================================================
-
-lidDepth = 4;
-
-module lidHole(x,y) {
-    translate([x,y,-0.1]) {
-        cylinder(d=3, h=lidDepth+20);
-        cylinder(d1=5, d2=3, h=2);
-    }
-}
-
-module lidHoles() {
-    lidHole(lidScrewOffset,lidScrewOffset);
-    lidHole(lidScrewOffset,height-lidScrewOffset);
-    lidHole(width-lidScrewOffset,height-lidScrewOffset);
-    lidHole(width-lidScrewOffset,lidScrewOffset);
-}
-
-module addMountingLug(x,y) {
-    translate([x,y,0]) {
-        difference() {
-            cylinder(d=16, h=4);
-            cylinder(d1=5, d2=9, h=4.1);
-        }
-    }
-}
-
-module addMountingLugs() {
-    addMountingLug(-5,20);
-    addMountingLug(-5,height-20);
-    addMountingLug(width+5,20);
-    addMountingLug(width+5,height-20);
-}
-
-module lid() {
-     difference() {
-        union() {
-            // Main lid...
-            roundedCube(width, height, lidDepth, 6);
-            
-            translate([1.5, 1.5, lidDepth]) {
-                // 1.5mm Goes in the box...
-                roundedCube(width-3, height-3, 4, 6);
-            }
-            
-            if (includeFeet) {
-                // Mounting Lugs
-                addMountingLugs();
-            }
-        }
-        union() {
-            translate([5, 5, 1.5]) {
-                // Inner lid cutout
-                roundedCube(width-10, height-10, lidDepth+5, 6);
-            }
-            
-            lidHoles();
-           
-        }
-    }
-    
-    if (includeBattery) {
-        // Make a battery box...
-        difference() {
-            union() {
-                translate([1.8, 12, 1.5]) {
-                    cube([width-3.6, 34, 13]);
-                }
-            }
-            union() {
-                translate([1.8+1.8+1.8, 13.5, 1.5]) {
-                    #cube([52, 34+5, 11]);
-                }
-            }
-        }
-    }
-}
     
 
 
@@ -590,12 +508,4 @@ translate([(width-33)/2,height-63,baseThickness + 0.8]) {
     //%tftBob();
 }
 
-if (buildBase) {
-    body();
-}
-
-if (buildLid ) {
-    translate([0,0,35]) {
-        lid();
-    }
-}
+body();
