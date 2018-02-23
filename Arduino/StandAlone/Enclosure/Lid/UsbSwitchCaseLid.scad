@@ -185,8 +185,8 @@ module roundedCube(width, height, depth, cornerRadius) {
 
 module lidHole(x,y) {
     translate([x,y,-0.1]) {
-        cylinder(d=3, h=lidDepth+20);
-        cylinder(d1=5, d2=3, h=2);
+        cylinder(d=3.5, h=lidDepth+20);
+        cylinder(d1=6.5, d2=3.5, h=3);
     }
 }
 
@@ -214,14 +214,16 @@ module addMountingLugs() {
 }
 
 module lid() {
+    
+lidLipDepth = 4;
      difference() {
         union() {
             // Main lid...
             roundedCube(width, height, lidDepth, 6);
             
-            translate([1.5, 1.5, lidDepth]) {
+            translate([1.4, 1.4, lidDepth]) {
                 // 1.5mm Goes in the box...
-                roundedCube(width-3, height-3, 4, 6);
+                roundedCube(width-2.8, height-2.8, lidLipDepth, 6);
             }
             
             if (includeFeet) {
@@ -232,7 +234,7 @@ module lid() {
         union() {
             translate([5, 5, 1.5]) {
                 // Inner lid cutout
-                roundedCube(width-10, height-10, lidDepth+5, 6);
+                roundedCube(width-10, height-10, lidDepth+lidLipDepth +1, 6);
             }
             
             lidHoles();
@@ -250,12 +252,21 @@ module lid() {
                 // 10mm from edge needed for 
                 // base to lid screw pillars
                 translate([1.8, 11, 1.5]) {
-                    cube([width-3.6, 30, 12]);
+                    cube([width-3.6, 30, 11.5]);
+                }
+                
+                // Stoppers to prevent the battery falling out
+                translate([1.8, 62, 0]) {
+                    cube([12, 2, lidDepth+lidLipDepth]);
+                }
+                
+                translate([width - 12 - 1.8, 62, 0]) {
+                    cube([12, 2, lidDepth+lidLipDepth]);
                 }
             }
             union() {
                 translate([1.5+1.7+1.8, 8, 1.5]) {
-                    cube([53, 34+5, 11]);
+                    cube([53, 34+5, 10]);
                 }
             }
         }
