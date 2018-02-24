@@ -1,0 +1,70 @@
+Partlist
+
+Exported from ArduinoStandaloneUsbSwitch-4Port.sch at 11/02/2018 19:11
+
+EAGLE Version 7.4.0 Copyright (c) 1988-2015 CadSoft
+
+Assembly variant: 
+
+Part     Value                       Device                      Package                      Library                    Sheet
+
+C1       0.1uF                       CAP0805                     0805                         SparkFun-Capacitors        1
+C2       0.1uF                       CAP0805                     0805                         SparkFun-Capacitors        1
+C3       0.1u                        CAP0805                     0805                         SparkFun-Capacitors        1
+C4       0.1uF                       CAP0805                     0805                         SparkFun-Capacitors        1
+C5                                   CAP0805                     0805                         SparkFun-Capacitors        1
+C6                                   CAP0805                     0805                         SparkFun-Capacitors        1
+C7       0.1u                        CAP0805                     0805                         SparkFun-Capacitors        1
+C8       0.1uF                       CAP0805                     0805                         SparkFun-Capacitors        1
+C9       100uF                       100UF-10V-10%(TANT)         EIA7343                      SparkFun-Capacitors        1
+C10      0.1u                        CAP0805                     0805                         SparkFun-Capacitors        1
+C11      0.1u                        CAP0805                     0805                         SparkFun-Capacitors        1
+D1                                   LED3MM                      LED3MM                       SparkFun-LED               1
+D2                                   LED3MM                      LED3MM                       SparkFun-LED               1
+D3                                   LED3MM                      LED3MM                       SparkFun-LED               1
+D4                                   LED3MM                      LED3MM                       SparkFun-LED               1
+D5                                   LED1206-BOTTOM              LED-1206-BOTTOM              SparkFun-LED               1
+JP2      USB-MICROB                  USB-MICROB                  USB-MICROB                   SparkFun-Connectors        1
+JP6                                  M03PTH                      1X03                         SparkFun-Connectors        1
+JP8                                  M025MM                      SCREWTERMINAL-5MM-2          SparkFun-Connectors        1
+R1       0.1                         0.001OHM-3W-1%(2512)3W/1%   2512                         SparkFun-Resistors         1
+R2                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R3                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R4                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R5                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R6                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R7                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R8                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R9                                   RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R10      0R                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R11      0R                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R12      1k                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R13      1k                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R14      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R15      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R16      1k                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R17                                  RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R18                                  RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R19      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R20      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R21      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R22      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R23      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R24      1k                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R25      1k                          RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R26      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R27      100k                        RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R29                                  RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+R30                                  RESISTOR0805-RES            0805                         SparkFun-Resistors         1
+S1       SWITCH-MOMENTARY-2PTH       SWITCH-MOMENTARY-2PTH       TACTILE-PTH                  SparkFun-Electromechanical 1
+S2       SWITCH-MOMENTARY-2PTH       SWITCH-MOMENTARY-2PTH       TACTILE-PTH                  SparkFun-Electromechanical 1
+S3       SWITCH-MOMENTARY-2PTH       SWITCH-MOMENTARY-2PTH       TACTILE-PTH                  SparkFun-Electromechanical 1
+S4       SWITCH-MOMENTARY-2PTH       SWITCH-MOMENTARY-2PTH       TACTILE-PTH                  SparkFun-Electromechanical 1
+U1       INA219AIDCNRSOIC            INA219AIDCNRSOIC            SO08                         INA219AIDCNR               1
+U2       LM3526M-L                   LM3526M-L                   SOIC127P640X175-8N           LM3256M-L                  1
+U3       LM3526M-L                   LM3526M-L                   SOIC127P640X175-8N           LM3256M-L                  1
+U4       ARDUINO_MKRFOX1200PROTOPADS ARDUINO_MKRFOX1200PROTOPADS ARDUINO_MKRFOX1200_PROTOPADS Arduino                    1
+USB1     USB-NEW                     USB-NEW                     USB-A-VERTICAL               Tinamous                   1
+USB2     USB-NEW                     USB-NEW                     USB-A-VERTICAL               Tinamous                   1
+USB3     USB-NEW                     USB-NEW                     USB-A-VERTICAL               Tinamous                   1
+USB4     USB-NEW                     USB-NEW                     USB-A-VERTICAL               Tinamous                   1
